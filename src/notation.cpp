@@ -1,6 +1,15 @@
 #include "notation.h"
 #include <cctype>
 #include <iostream>
+#include <unordered_map>
+
+std::unordered_map<char, Piece> CHAR_TO_PIECE = {
+    {'P', PAWN | WHITE}, {'B', BISHOP | WHITE}, {'N', KNIGHT | WHITE},
+    {'R', ROOK | WHITE}, {'Q', QUEEN | WHITE},  {'K', KING | WHITE},
+    {'p', PAWN | BLACK}, {'b', BISHOP | BLACK}, {'n', KNIGHT | BLACK},
+    {'r', ROOK | BLACK}, {'q', QUEEN | BLACK},  {'k', KING | BLACK},
+
+};
 
 static bool is_valid_piece_notation(char piece);
 static bool is_valid_file(char file);
@@ -47,32 +56,7 @@ Piece piece_from_notation(char piece) {
     exit(1);
   }
 
-  Piece color = isupper(piece) ? White : Black;
-  piece = toupper(piece);
-  switch (piece) {
-    case 'P': {
-      return Pawn | color;
-    }
-    case 'B': {
-      return Bishop | color;
-    }
-    case 'N': {
-      return Knight | color;
-    }
-    case 'R': {
-      return Rook | color;
-    }
-    case 'Q': {
-      return Queen | color;
-    }
-    case 'K': {
-      return King | color;
-    }
-    default: {
-      std::cout << "Invalid piece: " + std::string(1, piece) << std::endl;
-      exit(1);
-    }
-  }
+  return CHAR_TO_PIECE[piece];
 }
 
 static bool is_valid_piece_notation(char piece) {

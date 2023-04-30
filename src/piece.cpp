@@ -6,41 +6,41 @@ Piece base_piece(Piece piece) {
 }
 
 bool is_white(Piece piece) {
-  return (piece & White) == White;
+  return (piece & WHITE) == WHITE;
 }
 
 bool is_none(Piece piece) {
-  return base_piece(piece) == None;
+  return base_piece(piece) == NONE;
 }
 
 char piece_repr(Piece piece) {
   char output;
   switch (base_piece(piece)) {
-    case None: {
+    case NONE: {
       output = '.';
       break;
     }
-    case Pawn: {
+    case PAWN: {
       output = 'P';
       break;
     }
-    case Bishop: {
+    case BISHOP: {
       output = 'B';
       break;
     }
-    case Knight: {
+    case KNIGHT: {
       output = 'N';
       break;
     }
-    case Rook: {
+    case ROOK: {
       output = 'R';
       break;
     }
-    case Queen: {
+    case QUEEN: {
       output = 'Q';
       break;
     }
-    case King: {
+    case KING: {
       output = 'K';
       break;
     }
