@@ -14,6 +14,7 @@ std::unordered_map<char, Piece> CHAR_TO_PIECE = {
 static bool is_valid_piece_notation(char piece);
 static bool is_valid_file(char file);
 static bool is_valid_rank(char rank);
+static bool is_valid_algebraic_notation(std::string notation);
 
 Board board_from_FEN(std::string FEN) {
   Board board = Board();
@@ -72,7 +73,7 @@ static bool is_valid_rank(char rank) {
   return rank >= '1' && rank <= '8';
 }
 
-bool is_valid_algebraic_notation(std::string notation) {
+static bool is_valid_algebraic_notation(std::string notation) {
   char file = notation[0];
   char rank = notation[1];
 
