@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "board.h"
+#include "notation.h"
 
 int main(void) {
   Board board = new_board();
