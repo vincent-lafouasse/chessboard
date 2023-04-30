@@ -1,18 +1,17 @@
 #include <stdint.h>
 
-typedef uint8_t Piece;
+#define NONE 0b000
+#define PAWN 0b001
+#define BISHOP 0b010
+#define KNIGHT 0b011
+#define ROOK 0b100
+#define QUEEN 0b101
+#define KING 0b110
 
-enum {
-  NONE = 0,
-  PAWN = 1,
-  BISHOP = 2,
-  KNIGHT = 3,
-  ROOK = 4,
-  QUEEN = 5,
-  KING = 6,
-  WHITE = 8,
-  BLACK = 16,
-};
+#define WHITE 0b01000
+#define BLACK 0b10000
+
+typedef uint8_t Piece;
 
 Piece base_piece(Piece piece);
 bool is_white(Piece piece);
