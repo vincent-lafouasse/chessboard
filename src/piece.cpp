@@ -1,17 +1,21 @@
 #include "piece.h"
 #include <cctype>
 
+Piece base_piece(Piece piece) {
+  return piece % 8;
+}
+
 bool is_white(Piece piece) {
   return (piece & White) == White;
 }
 
 bool is_none(Piece piece) {
-  return (piece % 8) == None;
+  return base_piece(piece) == None;
 }
 
 char piece_repr(Piece piece) {
   char output;
-  switch (piece % 8) {
+  switch (base_piece(piece)) {
     case None: {
       output = '.';
       break;
