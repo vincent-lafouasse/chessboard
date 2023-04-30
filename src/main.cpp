@@ -10,6 +10,6 @@ int main(void) {
   Board board = board_from_FEN(funny_position);
   board.print();
 
-  std::string white_pawn_svg = load_svg("./assets/Chess_plt45.svg");
-  std::cout << white_pawn_svg << std::endl;
+  // std::string white_pawn_svg = load_svg("./assets/Chess_plt45.svg");
+  // std::cout << white_pawn_svg << std::endl;
 }

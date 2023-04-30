@@ -56,7 +56,6 @@ Piece piece_from_notation(char piece) {
     std::cout << "Invalid piece: " + std::string(1, piece) << std::endl;
     exit(1);
   }
-
   return CHAR_TO_PIECE[piece];
 }
 
