@@ -1,19 +1,17 @@
 #include "board.h"
 #include <iostream>
 
-void put_piece(Board* board, Piece piece, size_t index) {
-  board->at(index) = piece;
+void Board::put_piece(Piece piece, size_t index) {
+  squares.at(index) = piece;
 }
 
-Board new_board(void) {
-  Board board;
-  board.fill(NONE);
-  return board;
+Board::Board(void) {
+  squares.fill(NONE);
 }
 
-void print_board(Board board) {
+void Board::print(void) {
   for (int i = 0; i < N_SQUARES; i++) {
-    std::cout << piece_repr(board[i]);
+    std::cout << piece_repr(squares.at(i));
     if ((i + 1) % 8 == 0) {
       std::cout << std::endl;
     }

@@ -16,7 +16,7 @@ static bool is_valid_file(char file);
 static bool is_valid_rank(char rank);
 
 Board board_from_FEN(std::string FEN) {
-  Board board = new_board();
+  Board board = Board();
   size_t board_idx = 0;
   size_t str_idx = 0;
 
@@ -30,7 +30,7 @@ Board board_from_FEN(std::string FEN) {
       str_idx++;
       continue;
     }
-    put_piece(&board, piece_from_notation(FEN[str_idx]), board_idx);
+    board.put_piece(piece_from_notation(FEN[str_idx]), board_idx);
     board_idx++;
     str_idx++;
   }
