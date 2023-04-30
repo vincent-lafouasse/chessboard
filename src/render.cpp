@@ -1,5 +1,6 @@
 #include "render.h"
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <unordered_map>
 #include "piece.h"
@@ -19,6 +20,48 @@ const std::unordered_map<Piece, std::string> SVG_PATHS = {
     {QUEEN | BLACK, ASSETS_DIR + "Chess_qdt45.svg"},
     {KING | BLACK, ASSETS_DIR + "Chess_kdt45.svg"},
 };
+
+void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
+  const int SCREEN_X_POS = 0;
+  const int SCREEN_Y_POS = 0;
+  const int SCREEN_WIDTH = 8 * SQUARE_SIZE;
+  const int SCREEN_HEIGHT = 8 * SQUARE_SIZE;
+
+  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+
+  *return_window =
+      SDL_CreateWindow("Chess", SCREEN_X_POS, SCREEN_Y_POS, SCREEN_WIDTH,
+                       SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
+  if (*return_window == NULL) {
+    SDL_Log("Could not create a window: %s", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+  *return_renderer =
+      SDL_CreateRenderer(*return_window, -1, SDL_RENDERER_ACCELERATED);
+  if (*return_renderer == NULL) {
+    SDL_Log("Could not create a renderer: %s", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+}
+
+void set_render_color(Color color, SDL_Renderer* renderer) {
+  uint8_t red = 0;
+  uint8_t green = 0;
+  uint8_t blue = 0;
+  uint8_t alpha = 255;
+
+  if (color == Color::White) {
+    red = 255;
+    green = 255;
+    blue = 255;
+  } else if (color == Color::Black) {
+  }
+
+  SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
+}
 
 std::string load_svg(std::string path) {
   std::ifstream file_stream(path);
