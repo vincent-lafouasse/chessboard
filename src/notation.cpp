@@ -1,5 +1,11 @@
 #include "notation.h"
+#include <cctype>
 #include <iostream>
+#include "board.h"
+
+static bool is_valid_piece_notation(char piece);
+static bool is_valid_file(char file);
+static bool is_valid_rank(char rank);
 
 size_t algebraic_to_index(std::string notation) {
   if (!is_valid_algebraic_notation(notation)) {
@@ -12,6 +18,46 @@ size_t algebraic_to_index(std::string notation) {
   char rank_from_top = '8' - rank;
 
   return file + 8 * rank_from_top;
+}
+
+Piece piece_from_notation(char piece) {
+  if (!is_valid_piece_notation(piece)) {
+    std::cout << "Invalid piece: " + std::string(1, piece) << std::endl;
+    exit(1);
+  }
+
+  Piece color = isupper(piece) ? White : Black;
+  piece = toupper(piece);
+  switch (piece) {
+    case 'P': {
+      return Pawn | color;
+    }
+    case 'B': {
+      return Bishop | color;
+    }
+    case 'N': {
+      return Knight | color;
+    }
+    case 'R': {
+      return Rook | color;
+    }
+    case 'Q': {
+      return Queen | color;
+    }
+    case 'K': {
+      return King | color;
+    }
+    default: {
+      std::cout << "Invalid piece: " + std::string(1, piece) << std::endl;
+      exit(1);
+    }
+  }
+}
+
+static bool is_valid_piece_notation(char piece) {
+  piece = toupper(piece);
+  return (piece == 'P') || (piece == 'B') || (piece == 'N') || (piece == 'R') ||
+         (piece == 'Q') || (piece == 'K');
 }
 
 static bool is_valid_file(char file) {
