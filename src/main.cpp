@@ -4,10 +4,7 @@
 #include "notation.h"
 
 int main(void) {
-  Board board = new_board();
-  put_piece(&board, White | Pawn, algebraic_to_index("e4"));
-  put_piece(&board, Black | Pawn, algebraic_to_index("e5"));
-  put_piece(&board, White | Knight, algebraic_to_index("c3"));
-  put_piece(&board, Black | Knight, algebraic_to_index("f6"));
+  std::string after_e4 = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR";
+  Board board = board_from_FEN(after_e4);
   print_board(board);
 }

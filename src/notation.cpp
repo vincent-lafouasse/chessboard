@@ -1,11 +1,32 @@
 #include "notation.h"
 #include <cctype>
 #include <iostream>
-#include "board.h"
 
 static bool is_valid_piece_notation(char piece);
 static bool is_valid_file(char file);
 static bool is_valid_rank(char rank);
+
+Board board_from_FEN(std::string FEN) {
+  Board board;
+  size_t board_idx = 0;
+  size_t str_idx = 0;
+
+  while (board_idx < N_SQUARES && str_idx < FEN.size()) {
+    if (FEN[str_idx] == '/') {
+      str_idx++;
+      continue;
+    }
+    if (isdigit(FEN[str_idx])) {
+      board_idx += FEN[str_idx] - '0';
+      str_idx++;
+      continue;
+    }
+    board[str_idx] = piece_from_notation(FEN[str_idx]);
+    board_idx++;
+    str_idx++;
+  }
+  return board;
+}
 
 size_t algebraic_to_index(std::string notation) {
   if (!is_valid_algebraic_notation(notation)) {
