@@ -16,7 +16,7 @@ static bool is_valid_file(char file);
 static bool is_valid_rank(char rank);
 
 Board board_from_FEN(std::string FEN) {
-  Board board;
+  Board board = new_board();
   size_t board_idx = 0;
   size_t str_idx = 0;
 

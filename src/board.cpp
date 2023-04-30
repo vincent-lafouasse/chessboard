@@ -7,9 +7,7 @@ void put_piece(Board* board, Piece piece, size_t index) {
 
 Board new_board(void) {
   Board board;
-  for (int i = 0; i < N_SQUARES; i++) {
-    board[i] = None;
-  }
+  board.fill(NONE);
   return board;
 }
 

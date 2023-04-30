@@ -4,7 +4,8 @@
 #include "notation.h"
 
 int main(void) {
-  std::string after_e4 = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR";
-  Board board = board_from_FEN(after_e4);
+  std::string funny_position =
+      "rnbq1bnr/ppppkppp/8/4p3/4P3/8/PPPPKPPP/RNBQ1BNR";
+  Board board = board_from_FEN(funny_position);
   print_board(board);
 }
