@@ -6,7 +6,7 @@ bool is_white(Piece piece) {
 }
 
 bool is_none(Piece piece) {
-  return (piece % 2) == 0;
+  return (piece % 8) == None;
 }
 
 char piece_repr(Piece piece) {

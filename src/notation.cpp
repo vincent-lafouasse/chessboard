@@ -21,7 +21,7 @@ Board board_from_FEN(std::string FEN) {
       str_idx++;
       continue;
     }
-    board[str_idx] = piece_from_notation(FEN[str_idx]);
+    put_piece(&board, piece_from_notation(FEN[str_idx]), board_idx);
     board_idx++;
     str_idx++;
   }
