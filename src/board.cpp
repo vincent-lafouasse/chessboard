@@ -1,4 +1,5 @@
 #include "board.h"
+#include <cctype>
 #include <iostream>
 
 void put_piece(Board* board, Piece piece, size_t index) {
@@ -65,7 +66,7 @@ char piece_repr(Piece piece) {
   }
 
   if (!is_none(piece) && !is_white(piece)) {
-    output += 32;
+    output = tolower(output);
   }
   return output;
 }
