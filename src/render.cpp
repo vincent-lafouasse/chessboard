@@ -1,78 +1,96 @@
 #include "render.h"
-#include <fstream>
 #include <iostream>
-#include <sstream>
 #include <unordered_map>
 #include "piece.h"
 
+static void render_empty_chessboard(Palette palette, SDL_Renderer* renderer);
+static void render_column(int col,
+                          Color first_color,
+                          Color second_color,
+                          SDL_Renderer* renderer);
+
+static SDL_Texture* get_writable_texture(const int width,
+                                         const int height,
+                                         SDL_Renderer* renderer);
+static void set_as_render_target(SDL_Texture* texture, SDL_Renderer* renderer);
+static void reset_render_target(SDL_Renderer* renderer);
+
+// -----------------------------------------------------------------------------
+
 SDL_Texture* make_static_board_texture(const Palette palette,
                                        SDL_Renderer* renderer) {
-  int width = SQUARE_SIZE * 8;
-  int height = SQUARE_SIZE * 8;
+  constexpr int width = SQUARE_SIZE * 8;
+  constexpr int height = SQUARE_SIZE * 8;
 
-  // Create  writable texture
   SDL_Texture* static_board_texture =
-      SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
-                        SDL_TEXTUREACCESS_TARGET, width, height);
-  if (static_board_texture == NULL) {
-    printf("Unable to create static_board_texture, %s\n", SDL_GetError());
-  }
+      get_writable_texture(width, height, renderer);
+  set_as_render_target(static_board_texture, renderer);
 
-  // Set target texture as render target
-  if (SDL_SetRenderTarget(renderer, static_board_texture) != 0) {
-    printf("Unable to set static_board_texture as render target, %s\n",
-           SDL_GetError());
-  }
+  render_empty_chessboard(palette, renderer);
 
-  render_empty_chessboard(palette.dark, palette.white, renderer);
-
-  // Set render target back to renderer
-  if (SDL_SetRenderTarget(renderer, NULL) != 0) {
-    printf(
-        "unable to stop rendering to a texture and render to the window again, "
-        "%s\n",
-        SDL_GetError());
-  }
+  reset_render_target(renderer);
 
   return static_board_texture;
 }
 
-void render_column(int col,
-                   Color first_color,
-                   Color second_color,
-                   SDL_Renderer* renderer) {
-  Color color;
+static void render_empty_chessboard(Palette palette, SDL_Renderer* renderer) {
+  for (int col = 0; col < 8; col++) {
+    if (col % 2 == 0) {
+      render_column(col, palette.white, palette.dark, renderer);
+    } else {
+      render_column(col, palette.dark, palette.white, renderer);
+    }
+  }
+}
 
+static void render_column(int col,
+                          Color first_color,
+                          Color second_color,
+                          SDL_Renderer* renderer) {
   for (int row = 0; row < 8; row++) {
     SDL_Rect rect = {col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE,
                      SQUARE_SIZE};
-    color = (row % 2 == 0) ? first_color : second_color;
+    Color color = (row % 2 == 0) ? first_color : second_color;
     set_render_color(color, renderer);
     SDL_RenderFillRect(renderer, &rect);
   }
 }
 
-void render_empty_chessboard(Color dark, Color white, SDL_Renderer* renderer) {
-  Color first_color;
-  Color second_color;
+static SDL_Texture* get_writable_texture(const int width,
+                                         const int height,
+                                         SDL_Renderer* renderer) {
+  SDL_Texture* writable_texture =
+      SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+                        SDL_TEXTUREACCESS_TARGET, width, height);
+  if (writable_texture == NULL) {
+    printf("Unable to create writable texture, %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+  return writable_texture;
+}
 
-  for (int col = 0; col < 8; col++) {
-    if (col % 2 == 0) {
-      first_color = white;
-      second_color = dark;
-    } else {
-      first_color = dark;
-      second_color = white;
-    }
-    render_column(col, first_color, second_color, renderer);
+static void set_as_render_target(SDL_Texture* texture, SDL_Renderer* renderer) {
+  if (SDL_SetRenderTarget(renderer, texture) != 0) {
+    printf("Unable to set texture as render target, %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+}
+
+static void reset_render_target(SDL_Renderer* renderer) {
+  if (SDL_SetRenderTarget(renderer, NULL) != 0) {
+    printf(
+        "unable to stop rendering to a texture and render to the window again, "
+        "%s\n",
+        SDL_GetError());
+    exit(EXIT_FAILURE);
   }
 }
 
 void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
-  const int SCREEN_X_POS = 0;
-  const int SCREEN_Y_POS = 0;
-  const int SCREEN_WIDTH = 8 * SQUARE_SIZE;
-  const int SCREEN_HEIGHT = 8 * SQUARE_SIZE;
+  constexpr int SCREEN_X_POS = 0;
+  constexpr int SCREEN_Y_POS = 0;
+  constexpr int SCREEN_WIDTH = 8 * SQUARE_SIZE;
+  constexpr int SCREEN_HEIGHT = 8 * SQUARE_SIZE;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -86,6 +104,7 @@ void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
     SDL_Log("Could not create a window: %s", SDL_GetError());
     exit(EXIT_FAILURE);
   }
+
   *return_renderer =
       SDL_CreateRenderer(*return_window, -1, SDL_RENDERER_ACCELERATED);
   if (*return_renderer == NULL) {
@@ -94,7 +113,13 @@ void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
   }
 }
 
-std::unordered_map<Color, RGB> COLOR_TO_RGB = {
+struct RGB {
+  uint8_t red;
+  uint8_t green;
+  uint8_t blue;
+};
+
+const std::unordered_map<Color, RGB> COLOR_TO_RGB = {
     {Color::White, {255, 255, 255}},
     {Color::Black, {0, 0, 0}},
     {Color::MossGreen, {118, 150, 86}},
@@ -102,17 +127,10 @@ std::unordered_map<Color, RGB> COLOR_TO_RGB = {
 };
 
 void set_render_color(Color color, SDL_Renderer* renderer) {
-  RGB rgb = COLOR_TO_RGB[color];
-  const uint8_t alpha = 255;
+  RGB rgb = COLOR_TO_RGB.at(color);
+  constexpr uint8_t alpha = 255;
 
   SDL_SetRenderDrawColor(renderer, rgb.red, rgb.green, rgb.blue, alpha);
-}
-
-std::string load_svg(std::string path) {
-  std::ifstream file_stream(path);
-  std::stringstream buffer;
-  buffer << file_stream.rdbuf();
-  return buffer.str();
 }
 
 const std::string ASSETS_DIR = "./assets/";
