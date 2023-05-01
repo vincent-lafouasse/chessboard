@@ -39,7 +39,8 @@ int main(void) {
     set_render_color(Color::Eggshell, renderer);
     SDL_RenderClear(renderer);
 
-    SDL_RenderCopy(renderer, white_pawn_texture, NULL, NULL);
+    render_empty_chessboard(Color::MossGreen, Color::Eggshell, renderer);
+    // SDL_RenderCopy(renderer, white_pawn_texture, NULL, NULL);
 
     SDL_RenderPresent(renderer);
     cap_fps(frame_beginning_tick, TARGET_FPS);

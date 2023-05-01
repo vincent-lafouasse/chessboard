@@ -5,6 +5,37 @@
 #include <unordered_map>
 #include "piece.h"
 
+void render_column(int col,
+                   Color first_color,
+                   Color second_color,
+                   SDL_Renderer* renderer) {
+  Color color;
+
+  for (int row = 0; row < 8; row++) {
+    SDL_Rect rect = {col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE,
+                     SQUARE_SIZE};
+    color = (row % 2 == 0) ? first_color : second_color;
+    set_render_color(color, renderer);
+    SDL_RenderFillRect(renderer, &rect);
+  }
+}
+
+void render_empty_chessboard(Color dark, Color white, SDL_Renderer* renderer) {
+  Color first_color;
+  Color second_color;
+
+  for (int col = 0; col < 8; col++) {
+    if (col % 2 == 0) {
+      first_color = white;
+      second_color = dark;
+    } else {
+      first_color = dark;
+      second_color = white;
+    }
+    render_column(col, first_color, second_color, renderer);
+  }
+}
+
 void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
   const int SCREEN_X_POS = 0;
   const int SCREEN_Y_POS = 0;
