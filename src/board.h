@@ -6,8 +6,8 @@
 #define N_SQUARES 64
 
 struct Square {
-  size_t row;
-  size_t column;
+  int row;
+  int column;
 };
 
 class Board {

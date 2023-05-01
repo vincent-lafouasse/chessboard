@@ -26,6 +26,10 @@ int main(void) {
   SDL_Surface* white_pawn_surface = IMG_Load("./assets/Chess_plt45.svg");
   SDL_Texture* white_pawn_texture =
       SDL_CreateTextureFromSurface(renderer, white_pawn_surface);
+  Square e4 = algebraic_to_square("e4");
+  std::cout << "row " << e4.row << " col " << e4.column << std::endl;
+  SDL_Rect e4_rect = {e4.column * SQUARE_SIZE, e4.row * SQUARE_SIZE,
+                      SQUARE_SIZE, SQUARE_SIZE};
 
   uint32_t frame_beginning_tick;
   bool running = true;
@@ -43,7 +47,8 @@ int main(void) {
     SDL_RenderClear(renderer);
 
     SDL_RenderCopy(renderer, static_board_texture, NULL, NULL);
-    // SDL_RenderCopy(renderer, white_pawn_texture, NULL, NULL);
+
+    SDL_RenderCopy(renderer, white_pawn_texture, NULL, &e4_rect);
 
     SDL_RenderPresent(renderer);
     cap_fps(frame_beginning_tick, TARGET_FPS);

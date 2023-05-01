@@ -38,15 +38,17 @@ Board board_from_FEN(std::string FEN) {
   return board;
 }
 
-size_t algebraic_to_index(std::string notation) {
+Square algebraic_to_square(std::string notation) {
   if (!is_valid_algebraic_notation(notation)) {
     std::cout << "Invalid notation : " + notation << std::endl;
     exit(1);
   }
   char column = notation[0] - 'a';
   char row = '8' - notation[1];
-  Square square = {(size_t)row, (size_t)column};
-  return square_to_index(square);
+  Square square;
+  square.row = row;
+  square.column = column;
+  return square;
 }
 
 Piece piece_from_notation(char piece) {

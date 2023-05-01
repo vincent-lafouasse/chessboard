@@ -14,7 +14,10 @@ size_t square_to_index(Square square) {
 }
 
 Square index_to_square(size_t index) {
-  return {index / 8, index % 8};
+  Square square;
+  square.column = index % 8;
+  square.row = index / 8;
+  return square;
 }
 
 Piece Board::at(size_t index) {
