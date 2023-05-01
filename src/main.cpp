@@ -45,6 +45,8 @@ int main(void) {
     cap_fps(frame_beginning_tick, TARGET_FPS);
   }
 
+  SDL_DestroyTexture(white_pawn_texture);
+  SDL_FreeSurface(white_pawn_surface);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
