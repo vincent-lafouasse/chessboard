@@ -34,6 +34,8 @@ void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
 std::unordered_map<Color, RGB> COLOR_TO_RGB = {
     {Color::White, {255, 255, 255}},
     {Color::Black, {0, 0, 0}},
+    {Color::MossGreen, {118, 150, 86}},
+    {Color::Eggshell, {238, 238, 210}},
 };
 
 void set_render_color(Color color, SDL_Renderer* renderer) {

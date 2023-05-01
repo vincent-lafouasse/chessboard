@@ -5,7 +5,7 @@
 
 #define SQUARE_SIZE 64
 
-enum class Color { Black, White };
+enum class Color { Black, White, MossGreen, Eggshell };
 
 struct RGB {
   uint8_t red;

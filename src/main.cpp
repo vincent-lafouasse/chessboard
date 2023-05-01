@@ -35,7 +35,7 @@ int main(void) {
       }
     }
 
-    set_render_color(Color::Black, renderer);
+    set_render_color(Color::Eggshell, renderer);
     SDL_RenderClear(renderer);
 
     SDL_RenderPresent(renderer);
