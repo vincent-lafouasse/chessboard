@@ -5,22 +5,6 @@
 #include <unordered_map>
 #include "piece.h"
 
-const std::string ASSETS_DIR = "./assets/";
-const std::unordered_map<Piece, std::string> SVG_PATHS = {
-    {PAWN | WHITE, ASSETS_DIR + "Chess_plt45.svg"},
-    {BISHOP | WHITE, ASSETS_DIR + "Chess_blt45.svg"},
-    {KNIGHT | WHITE, ASSETS_DIR + "Chess_nlt45.svg"},
-    {ROOK | WHITE, ASSETS_DIR + "Chess_rlt45.svg"},
-    {QUEEN | WHITE, ASSETS_DIR + "Chess_qlt45.svg"},
-    {KING | WHITE, ASSETS_DIR + "Chess_klt45.svg"},
-    {PAWN | BLACK, ASSETS_DIR + "Chess_pdt45.svg"},
-    {BISHOP | BLACK, ASSETS_DIR + "Chess_bdt45.svg"},
-    {KNIGHT | BLACK, ASSETS_DIR + "Chess_ndt45.svg"},
-    {ROOK | BLACK, ASSETS_DIR + "Chess_rdt45.svg"},
-    {QUEEN | BLACK, ASSETS_DIR + "Chess_qdt45.svg"},
-    {KING | BLACK, ASSETS_DIR + "Chess_kdt45.svg"},
-};
-
 void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
   const int SCREEN_X_POS = 0;
   const int SCREEN_Y_POS = 0;
@@ -47,20 +31,16 @@ void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer) {
   }
 }
 
+std::unordered_map<Color, RGB> COLOR_TO_RGB = {
+    {Color::White, {255, 255, 255}},
+    {Color::Black, {0, 0, 0}},
+};
+
 void set_render_color(Color color, SDL_Renderer* renderer) {
-  uint8_t red = 0;
-  uint8_t green = 0;
-  uint8_t blue = 0;
-  uint8_t alpha = 255;
+  RGB rgb = COLOR_TO_RGB[color];
+  const uint8_t alpha = 255;
 
-  if (color == Color::White) {
-    red = 255;
-    green = 255;
-    blue = 255;
-  } else if (color == Color::Black) {
-  }
-
-  SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
+  SDL_SetRenderDrawColor(renderer, rgb.red, rgb.green, rgb.blue, alpha);
 }
 
 std::string load_svg(std::string path) {
@@ -69,3 +49,20 @@ std::string load_svg(std::string path) {
   buffer << file_stream.rdbuf();
   return buffer.str();
 }
+
+const std::string ASSETS_DIR = "./assets/";
+
+const std::unordered_map<Piece, std::string> SVG_PATHS = {
+    {PAWN | WHITE, ASSETS_DIR + "Chess_plt45.svg"},
+    {BISHOP | WHITE, ASSETS_DIR + "Chess_blt45.svg"},
+    {KNIGHT | WHITE, ASSETS_DIR + "Chess_nlt45.svg"},
+    {ROOK | WHITE, ASSETS_DIR + "Chess_rlt45.svg"},
+    {QUEEN | WHITE, ASSETS_DIR + "Chess_qlt45.svg"},
+    {KING | WHITE, ASSETS_DIR + "Chess_klt45.svg"},
+    {PAWN | BLACK, ASSETS_DIR + "Chess_pdt45.svg"},
+    {BISHOP | BLACK, ASSETS_DIR + "Chess_bdt45.svg"},
+    {KNIGHT | BLACK, ASSETS_DIR + "Chess_ndt45.svg"},
+    {ROOK | BLACK, ASSETS_DIR + "Chess_rdt45.svg"},
+    {QUEEN | BLACK, ASSETS_DIR + "Chess_qdt45.svg"},
+    {KING | BLACK, ASSETS_DIR + "Chess_kdt45.svg"},
+};
