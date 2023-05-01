@@ -5,7 +5,7 @@ set -o xtrace
 SVG_DIR='./SVG/'
 PNG_DIR='./PNG/'
 
-SVGS=$(ls "${SVG_DIR}" | grep '.svg')
+SVGS=$(cd "${SVG_DIR}" && echo *.svg)
 
 RESOLUTION=1024
 
