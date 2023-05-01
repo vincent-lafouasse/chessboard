@@ -5,6 +5,38 @@
 #include <unordered_map>
 #include "piece.h"
 
+SDL_Texture* make_static_board_texture(const Palette palette,
+                                       SDL_Renderer* renderer) {
+  int width = SQUARE_SIZE * 8;
+  int height = SQUARE_SIZE * 8;
+
+  // Create  writable texture
+  SDL_Texture* static_board_texture =
+      SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+                        SDL_TEXTUREACCESS_TARGET, width, height);
+  if (static_board_texture == NULL) {
+    printf("Unable to create static_board_texture, %s\n", SDL_GetError());
+  }
+
+  // Set target texture as render target
+  if (SDL_SetRenderTarget(renderer, static_board_texture) != 0) {
+    printf("Unable to set static_board_texture as render target, %s\n",
+           SDL_GetError());
+  }
+
+  render_empty_chessboard(palette.dark, palette.white, renderer);
+
+  // Set render target back to renderer
+  if (SDL_SetRenderTarget(renderer, NULL) != 0) {
+    printf(
+        "unable to stop rendering to a texture and render to the window again, "
+        "%s\n",
+        SDL_GetError());
+  }
+
+  return static_board_texture;
+}
+
 void render_column(int col,
                    Color first_color,
                    Color second_color,

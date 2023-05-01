@@ -15,6 +15,9 @@ int main(void) {
   SDL_Renderer* renderer = NULL;
   init_SDL(&window, &renderer);
 
+  SDL_Texture* static_board_texture =
+      make_static_board_texture(RELAXED_GREEN, renderer);
+
   std::string funny_position =
       "rnbq1bnr/ppppkppp/8/4p3/4P3/8/PPPPKPPP/RNBQ1BNR";
   Board board = board_from_FEN(funny_position);
@@ -39,7 +42,7 @@ int main(void) {
     set_render_color(Color::Eggshell, renderer);
     SDL_RenderClear(renderer);
 
-    render_empty_chessboard(Color::MossGreen, Color::Eggshell, renderer);
+    SDL_RenderCopy(renderer, static_board_texture, NULL, NULL);
     // SDL_RenderCopy(renderer, white_pawn_texture, NULL, NULL);
 
     SDL_RenderPresent(renderer);
@@ -47,6 +50,7 @@ int main(void) {
   }
 
   SDL_DestroyTexture(white_pawn_texture);
+  SDL_DestroyTexture(static_board_texture);
   SDL_FreeSurface(white_pawn_surface);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

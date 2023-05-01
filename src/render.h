@@ -7,12 +7,22 @@
 
 enum class Color { Black, White, MossGreen, Eggshell };
 
+struct Palette {
+  Color white;
+  Color dark;
+};
+
+const Palette RELAXED_GREEN = {Color::Eggshell, Color::MossGreen};
+const Palette BLACK_WHITE = {Color::White, Color::Black};
+
 struct RGB {
   uint8_t red;
   uint8_t green;
   uint8_t blue;
 };
 
+SDL_Texture* make_static_board_texture(const Palette palette,
+                                       SDL_Renderer* renderer);
 void render_column(int col,
                    Color first_color,
                    Color second_color,
