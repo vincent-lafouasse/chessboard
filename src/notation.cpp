@@ -43,12 +43,10 @@ size_t algebraic_to_index(std::string notation) {
     std::cout << "Invalid notation : " + notation << std::endl;
     exit(1);
   }
-  char file = notation[0];
-  char rank = notation[1];
-  file -= 'a';
-  char rank_from_top = '8' - rank;
-
-  return file + 8 * rank_from_top;
+  char column = notation[0] - 'a';
+  char row = '8' - notation[1];
+  Square square = {(size_t)row, (size_t)column};
+  return square_to_index(square);
 }
 
 Piece piece_from_notation(char piece) {
@@ -77,11 +75,15 @@ static bool is_valid_algebraic_notation(std::string notation) {
   char rank = notation[1];
 
   if (!is_valid_file(file)) {
-    std::cout << "Invalid file: " + std::string(1, file) << std::endl;
+    std::cout << "Invalid file: " + std::string(1, file) + " in expression " +
+                     notation
+              << std::endl;
     exit(1);
   }
   if (!is_valid_rank(rank)) {
-    std::cout << "Invalid rank: " + std::string(1, rank) << std::endl;
+    std::cout << "Invalid rank: " + std::string(1, rank) + " in expression " +
+                     notation
+              << std::endl;
     exit(1);
   }
   return true;
