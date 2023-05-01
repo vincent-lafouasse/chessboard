@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 #include <string>
 #include "board.h"
@@ -19,9 +20,9 @@ int main(void) {
   Board board = board_from_FEN(funny_position);
   board.print();
 
-  // std::string white_pawn_svg = load_svg("./assets/Chess_plt45.svg");
-  // std::cout << white_pawn_svg << std::endl;
-  //
+  SDL_Surface* white_pawn_surface = IMG_Load("./assets/Chess_plt45.svg");
+  SDL_Texture* white_pawn_texture =
+      SDL_CreateTextureFromSurface(renderer, white_pawn_surface);
 
   uint32_t frame_beginning_tick;
   bool running = true;
@@ -37,6 +38,8 @@ int main(void) {
 
     set_render_color(Color::Eggshell, renderer);
     SDL_RenderClear(renderer);
+
+    SDL_RenderCopy(renderer, white_pawn_texture, NULL, NULL);
 
     SDL_RenderPresent(renderer);
     cap_fps(frame_beginning_tick, TARGET_FPS);
