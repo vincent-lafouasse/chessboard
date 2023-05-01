@@ -1,8 +1,10 @@
 #pragma once
 
-#include <SDL2/SDL.h>
 #include <string>
 #include <unordered_map>
+
+#include <SDL2/SDL.h>
+
 #include "piece.h"
 
 #define SQUARE_SIZE 64

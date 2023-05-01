@@ -1,4 +1,5 @@
 #include "notation.h"
+
 #include <cctype>
 #include <iostream>
 #include <unordered_map>

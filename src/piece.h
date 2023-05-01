@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdint.h>
 
 #define NONE 0b000

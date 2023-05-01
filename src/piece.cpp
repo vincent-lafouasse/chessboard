@@ -1,4 +1,5 @@
 #include "piece.h"
+
 #include <array>
 #include <cctype>
 

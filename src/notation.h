@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "board.h"
 
 Board board_from_FEN(std::string FEN);

@@ -1,4 +1,5 @@
 #include "board.h"
+
 #include <iostream>
 
 void Board::put_piece(Piece piece, size_t index) {

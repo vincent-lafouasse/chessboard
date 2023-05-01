@@ -1,5 +1,7 @@
 #include "render.h"
+
 #include <iostream>
+
 #include "piece.h"
 
 static void render_empty_chessboard(Palette palette, SDL_Renderer* renderer);

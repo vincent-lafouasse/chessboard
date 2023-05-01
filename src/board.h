@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+
 #include "piece.h"
 
 #define N_SQUARES 64
