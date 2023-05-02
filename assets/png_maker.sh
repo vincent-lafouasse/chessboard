@@ -7,7 +7,7 @@ PNG_DIR='./PNG/'
 
 SVGS=$(cd "${SVG_DIR}" && echo *.svg)
 
-RESOLUTION=1024
+RESOLUTION=64
 
 for SVG in ${SVGS}; do
 	OUTPUT_FILENAME=$(echo "${SVG}" | sed -e 's/svg/png/g')
