@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <SDL2/SDL_image.h>
+
 #include "piece.h"
 
 static void render_empty_chessboard(Palette palette, SDL_Renderer* renderer);
@@ -17,6 +19,27 @@ static void set_as_render_target(SDL_Texture* texture, SDL_Renderer* renderer);
 static void reset_render_target(SDL_Renderer* renderer);
 
 // -----------------------------------------------------------------------------
+
+SDL_Texture* PieceSet::get(Piece piece) {
+  return textures.at(piece);
+}
+
+PieceSet::PieceSet(const std::unordered_map<Piece, std::string>& png_paths,
+                   SDL_Renderer* renderer) {
+  for (auto iterator = png_paths.begin(); iterator != png_paths.end();
+       iterator++) {
+    textures.insert(
+        {iterator->first, SDL_CreateTextureFromSurface(
+                              renderer, IMG_Load((iterator->second).c_str()))});
+  }
+}
+
+PieceSet::~PieceSet() {
+  for (auto iterator = textures.begin(); iterator != textures.end();
+       iterator++) {
+    SDL_DestroyTexture(iterator->second);
+  }
+}
 
 SDL_Texture* make_static_board_texture(const Palette palette,
                                        SDL_Renderer* renderer) {

@@ -16,6 +16,17 @@ struct Palette {
   Color dark;
 };
 
+class PieceSet {
+ public:
+  PieceSet(const std::unordered_map<Piece, std::string>& png_paths,
+           SDL_Renderer* renderer);
+  ~PieceSet();
+  SDL_Texture* get(Piece piece);
+
+ private:
+  std::unordered_map<Piece, SDL_Texture*> textures;
+};
+
 SDL_Texture* make_static_board_texture(const Palette palette,
                                        SDL_Renderer* renderer);
 void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer);

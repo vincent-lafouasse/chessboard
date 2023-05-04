@@ -25,10 +25,7 @@ int main(void) {
   Board board = board_from_FEN(funny_position);
   board.print();
 
-  const char* white_pawn_png_path = PNG_PATHS.at(WHITE | PAWN).c_str();
-  SDL_Surface* white_pawn_surface = IMG_Load(white_pawn_png_path);
-  SDL_Texture* white_pawn_texture =
-      SDL_CreateTextureFromSurface(renderer, white_pawn_surface);
+  PieceSet piece_set(PNG_PATHS, renderer);
 
   Square e4 = algebraic_to_square("e4");
   SDL_Rect e4_rect = {e4.column * SQUARE_SIZE, e4.row * SQUARE_SIZE,
@@ -51,15 +48,13 @@ int main(void) {
 
     SDL_RenderCopy(renderer, static_board_texture, NULL, NULL);
 
-    SDL_RenderCopy(renderer, white_pawn_texture, NULL, &e4_rect);
+    SDL_RenderCopy(renderer, piece_set.get(WHITE | PAWN), NULL, &e4_rect);
 
     SDL_RenderPresent(renderer);
     cap_fps(frame_beginning_tick, TARGET_FPS);
   }
 
-  SDL_DestroyTexture(white_pawn_texture);
   SDL_DestroyTexture(static_board_texture);
-  SDL_FreeSurface(white_pawn_surface);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
