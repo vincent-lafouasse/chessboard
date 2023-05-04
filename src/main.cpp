@@ -23,13 +23,8 @@ int main(void) {
   std::string funny_position =
       "rnbq1bnr/ppppkppp/8/4p3/4P3/8/PPPPKPPP/RNBQ1BNR";
   Board board = board_from_FEN(funny_position);
-  board.print();
 
   PieceSet piece_set(PNG_PATHS, renderer);
-
-  Square e4 = algebraic_to_square("e4");
-  SDL_Rect e4_rect = {e4.column * SQUARE_SIZE, e4.row * SQUARE_SIZE,
-                      SQUARE_SIZE, SQUARE_SIZE};
 
   uint32_t frame_beginning_tick;
   bool running = true;
@@ -48,7 +43,7 @@ int main(void) {
 
     SDL_RenderCopy(renderer, static_board_texture, NULL, NULL);
 
-    SDL_RenderCopy(renderer, piece_set.get(WHITE | PAWN), NULL, &e4_rect);
+    render_pieces(board, piece_set, renderer);
 
     SDL_RenderPresent(renderer);
     cap_fps(frame_beginning_tick, TARGET_FPS);

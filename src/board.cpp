@@ -21,7 +21,7 @@ Square index_to_square(size_t index) {
   return square;
 }
 
-Piece Board::at(size_t index) {
+Piece Board::at(size_t index) const {
   return squares.at(index);
 }
 

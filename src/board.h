@@ -15,7 +15,7 @@ class Board {
  public:
   Board();
   void put_piece(Piece piece, size_t index);
-  Piece at(size_t index);
+  Piece at(size_t index) const;
   void print(void);
 
  private:

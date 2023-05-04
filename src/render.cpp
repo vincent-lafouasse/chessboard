@@ -4,8 +4,6 @@
 
 #include <SDL2/SDL_image.h>
 
-#include "piece.h"
-
 static void render_empty_chessboard(Palette palette, SDL_Renderer* renderer);
 static void render_column(int col,
                           Color first_color,
@@ -20,7 +18,33 @@ static void reset_render_target(SDL_Renderer* renderer);
 
 // -----------------------------------------------------------------------------
 
-SDL_Texture* PieceSet::get(Piece piece) {
+SDL_Rect index_to_rect(size_t index, int square_size) {
+  Square square = index_to_square(index);
+  SDL_Rect rect = {square.column * square_size, square.row * square_size,
+                   square_size, square_size};
+  return rect;
+}
+
+void render_piece(size_t index,
+                  Piece piece,
+                  const PieceSet& piece_set,
+                  SDL_Renderer* renderer) {
+  SDL_Rect rect = index_to_rect(index, SQUARE_SIZE);
+  SDL_RenderCopy(renderer, piece_set.get(piece), NULL, &rect);
+}
+
+void render_pieces(const Board& board,
+                   const PieceSet& piece_set,
+                   SDL_Renderer* renderer) {
+  for (size_t i = 0; i < 64; i++) {
+    if (is_none(board.at(i))) {
+      continue;
+    }
+    render_piece(i, board.at(i), piece_set, renderer);
+  }
+}
+
+SDL_Texture* PieceSet::get(Piece piece) const {
   return textures.at(piece);
 }
 

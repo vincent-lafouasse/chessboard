@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "board.h"
 #include "piece.h"
 
 #define SQUARE_SIZE 64
@@ -21,12 +22,15 @@ class PieceSet {
   PieceSet(const std::unordered_map<Piece, std::string>& png_paths,
            SDL_Renderer* renderer);
   ~PieceSet();
-  SDL_Texture* get(Piece piece);
+  SDL_Texture* get(Piece piece) const;
 
  private:
   std::unordered_map<Piece, SDL_Texture*> textures;
 };
 
+void render_pieces(const Board& board,
+                   const PieceSet& piece_set,
+                   SDL_Renderer* renderer);
 SDL_Texture* make_static_board_texture(const Palette palette,
                                        SDL_Renderer* renderer);
 void init_SDL(SDL_Window** return_window, SDL_Renderer** return_renderer);
