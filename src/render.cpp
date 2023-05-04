@@ -16,22 +16,13 @@ static SDL_Texture* get_writable_texture(const int width,
 static void set_as_render_target(SDL_Texture* texture, SDL_Renderer* renderer);
 static void reset_render_target(SDL_Renderer* renderer);
 
+static SDL_Rect index_to_rect(size_t index, int square_size);
+static void render_piece(size_t index,
+                         Piece piece,
+                         const PieceSet& piece_set,
+                         SDL_Renderer* renderer);
+
 // -----------------------------------------------------------------------------
-
-SDL_Rect index_to_rect(size_t index, int square_size) {
-  Square square = index_to_square(index);
-  SDL_Rect rect = {square.column * square_size, square.row * square_size,
-                   square_size, square_size};
-  return rect;
-}
-
-void render_piece(size_t index,
-                  Piece piece,
-                  const PieceSet& piece_set,
-                  SDL_Renderer* renderer) {
-  SDL_Rect rect = index_to_rect(index, SQUARE_SIZE);
-  SDL_RenderCopy(renderer, piece_set.get(piece), NULL, &rect);
-}
 
 void render_pieces(const Board& board,
                    const PieceSet& piece_set,
@@ -44,24 +35,29 @@ void render_pieces(const Board& board,
   }
 }
 
+static void render_piece(size_t index,
+                         Piece piece,
+                         const PieceSet& piece_set,
+                         SDL_Renderer* renderer) {
+  SDL_Rect rect = index_to_rect(index, SQUARE_SIZE);
+  SDL_RenderCopy(renderer, piece_set.get(piece), NULL, &rect);
+}
+
 SDL_Texture* PieceSet::get(Piece piece) const {
   return textures.at(piece);
 }
 
 PieceSet::PieceSet(const std::unordered_map<Piece, std::string>& png_paths,
                    SDL_Renderer* renderer) {
-  for (auto iterator = png_paths.begin(); iterator != png_paths.end();
-       iterator++) {
-    textures.insert(
-        {iterator->first, SDL_CreateTextureFromSurface(
-                              renderer, IMG_Load((iterator->second).c_str()))});
+  for (auto it = png_paths.begin(); it != png_paths.end(); it++) {
+    textures.insert({it->first, SDL_CreateTextureFromSurface(
+                                    renderer, IMG_Load((it->second).c_str()))});
   }
 }
 
 PieceSet::~PieceSet() {
-  for (auto iterator = textures.begin(); iterator != textures.end();
-       iterator++) {
-    SDL_DestroyTexture(iterator->second);
+  for (auto it = textures.begin(); it != textures.end(); it++) {
+    SDL_DestroyTexture(it->second);
   }
 }
 
@@ -179,4 +175,11 @@ void set_render_color(Color color, SDL_Renderer* renderer) {
   constexpr uint8_t alpha = 255;
 
   SDL_SetRenderDrawColor(renderer, rgb.red, rgb.green, rgb.blue, alpha);
+}
+
+SDL_Rect index_to_rect(size_t index, int square_size) {
+  Square square = index_to_square(index);
+  SDL_Rect rect = {square.column * square_size, square.row * square_size,
+                   square_size, square_size};
+  return rect;
 }
