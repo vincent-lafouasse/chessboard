@@ -5,10 +5,10 @@
 #include <unordered_map>
 
 std::unordered_map<char, Piece> CHAR_TO_PIECE = {
-    {'P', PAWN | WHITE}, {'B', BISHOP | WHITE}, {'N', KNIGHT | WHITE},
-    {'R', ROOK | WHITE}, {'Q', QUEEN | WHITE},  {'K', KING | WHITE},
-    {'p', PAWN | BLACK}, {'b', BISHOP | BLACK}, {'n', KNIGHT | BLACK},
-    {'r', ROOK | BLACK}, {'q', QUEEN | BLACK},  {'k', KING | BLACK},
+    {'P', WHITE | PAWN}, {'B', WHITE | BISHOP}, {'N', WHITE | KNIGHT},
+    {'R', WHITE | ROOK}, {'Q', WHITE | QUEEN},  {'K', WHITE | KING},
+    {'p', BLACK | PAWN}, {'b', BLACK | BISHOP}, {'n', BLACK | KNIGHT},
+    {'r', BLACK | ROOK}, {'q', BLACK | QUEEN},  {'k', BLACK | KING},
 
 };
 

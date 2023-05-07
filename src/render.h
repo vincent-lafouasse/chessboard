@@ -42,16 +42,16 @@ constexpr Palette BLACK_WHITE = {Color::White, Color::Black};
 const std::string PNG_DIR = "./assets/PNG/";
 
 const std::unordered_map<Piece, std::string> PNG_PATHS = {
-    {PAWN | WHITE, PNG_DIR + "white_pawn.png"},
-    {BISHOP | WHITE, PNG_DIR + "white_bishop.png"},
-    {KNIGHT | WHITE, PNG_DIR + "white_knight.png"},
-    {ROOK | WHITE, PNG_DIR + "white_rook.png"},
-    {QUEEN | WHITE, PNG_DIR + "white_queen.png"},
-    {KING | WHITE, PNG_DIR + "white_king.png"},
-    {PAWN | BLACK, PNG_DIR + "black_pawn.png"},
-    {BISHOP | BLACK, PNG_DIR + "black_bishop.png"},
-    {KNIGHT | BLACK, PNG_DIR + "black_knight.png"},
-    {ROOK | BLACK, PNG_DIR + "black_rook.png"},
-    {QUEEN | BLACK, PNG_DIR + "black_queen.png"},
-    {KING | BLACK, PNG_DIR + "black_king.png"},
+    {WHITE | PAWN, PNG_DIR + "white_pawn.png"},
+    {WHITE | BISHOP, PNG_DIR + "white_bishop.png"},
+    {WHITE | KNIGHT, PNG_DIR + "white_knight.png"},
+    {WHITE | ROOK, PNG_DIR + "white_rook.png"},
+    {WHITE | QUEEN, PNG_DIR + "white_queen.png"},
+    {WHITE | KING, PNG_DIR + "white_king.png"},
+    {BLACK | PAWN, PNG_DIR + "black_pawn.png"},
+    {BLACK | BISHOP, PNG_DIR + "black_bishop.png"},
+    {BLACK | KNIGHT, PNG_DIR + "black_knight.png"},
+    {BLACK | ROOK, PNG_DIR + "black_rook.png"},
+    {BLACK | QUEEN, PNG_DIR + "black_queen.png"},
+    {BLACK | KING, PNG_DIR + "black_king.png"},
 };
